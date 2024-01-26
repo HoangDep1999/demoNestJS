@@ -22,12 +22,12 @@ export class ProductsController {
     // createProduct(@Body(new ValidationPipe()) productDTO:ProductDTO ): ResponseData<ProductDTO>
 
     @Post()
-    createProduct(@Body() productDTO:ProductDTO ): ResponseData<ProductDTO>
+    createProduct(@Body() productDTO:ProductDTO ): ResponseData<Product>
     {
         try{
-        return new ResponseData<ProductDTO>(productDTO,HttpStatus.SUCCESS, HttpMessage.ERROR);
+        return new ResponseData<Product>(this.productService.createProduct(productDTO),HttpStatus.SUCCESS, HttpMessage.ERROR);
         }catch(err){
-        return new ResponseData<ProductDTO>(null,HttpStatus.SUCCESS, HttpMessage.ERROR);
+        return new ResponseData<Product>(null,HttpStatus.SUCCESS, HttpMessage.ERROR);
         }
     }
 
@@ -41,20 +41,20 @@ export class ProductsController {
     }
 
     @Put('/:id')
-    updateProduct(): ResponseData<string>{
+    updateProduct(@Body() productDTO:ProductDTO, @Param('id') id:number): ResponseData<Product>{
         try{
-        return new ResponseData<string>(this.productService.updateProduct(),HttpStatus.SUCCESS, HttpMessage.ERROR);
+        return new ResponseData<Product>(this.productService.updateProduct(productDTO,id),HttpStatus.SUCCESS, HttpMessage.ERROR);
         }catch(err){
-        return new ResponseData<string>(null,HttpStatus.SUCCESS, HttpMessage.ERROR);
+        return new ResponseData<Product>(null,HttpStatus.SUCCESS, HttpMessage.ERROR);
         }
     }
 
     @Delete('/:id')
-    deleteProduct(): ResponseData<string>{
+    deleteProduct(@Param('id') id:number): ResponseData<boolean>{
         try{
-        return new ResponseData<string>(this.productService.deleteProduct(),HttpStatus.SUCCESS, HttpMessage.ERROR);
+        return new ResponseData<boolean>(this.productService.deleteProduct(id),HttpStatus.SUCCESS, HttpMessage.ERROR);
         }catch(err){
-        return new ResponseData<string>(null,HttpStatus.SUCCESS, HttpMessage.ERROR);
+        return new ResponseData<boolean>(null,HttpStatus.SUCCESS, HttpMessage.ERROR);
         }
     }
 }
